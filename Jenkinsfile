@@ -1,4 +1,5 @@
-pipeline {
+pipeline
+{
 	agent any
 	options {
 		buildDiscarded(logRotator(numToKeepStr: '5', daysToKeepStr: '2'))
@@ -89,7 +90,7 @@ pipeline {
 	        subject: "Jenkins-${JOB_NAME}-${BUILD_NUMBER} FAILED", to: 'arnon.brouner@gmail.com'
 	    }
 	}
-
+}
 def PythonFileExe(pyfilename, bckground){
 // run python file, used for the testing files and fail the build in case of error
 	try{
