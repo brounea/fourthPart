@@ -3,6 +3,11 @@ pipeline {
 	options {
 		buildDiscarder(logRotator(numToKeepStr: '5', daysToKeepStr: '2'))
 	}
+	environment {
+        registry = "arnonbrouner/fourthproject"
+        registryCredential = 'docker_hub'
+        dockerImage = ''
+     }
 	stages {
 		stage('Git checkout') {
 			steps {
@@ -46,6 +51,45 @@ pipeline {
 			}
 		}
 	}
+	stage('build and push image') {
+        steps {
+            script {
+                dockerImage = docker.build registry + "fourth-image:$BUILD_NUMBER"
+                docker.withRegistry('', registryCredential) {
+                dockerImage.push()
+                }
+            }
+        }
+    } // not sure if needed
+
+    stage('Run docker compose -d') {
+    steps {
+        script {
+            if (isUnix()) {
+                sh 'docker compose up -d'
+            } else {
+                bat 'docker compose up -d'
+            }
+        }
+    }
+
+		stage('run docker environment step') {
+			steps {
+				script {
+					PythonFileExe('docker_backend_testing.py',0)
+				}
+			}
+		}
+
+		stage('Clean docker environment') {
+            steps {
+                script {
+                 sh "docker-compose down"
+                sh "docker image rm fourth-image:$BUILD_NUMBER"
+                }
+            }
+        }
+
 	post {
 // 	Extra: send email in case of failure
 	    failure {
