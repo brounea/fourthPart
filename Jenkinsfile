@@ -7,7 +7,7 @@ pipeline {
         registry = 'arnonbrouner/fourthpart'
         registryCredential = 'docker_hub'
         dockerImage = ''
-     }
+    }
 	stages {
 		stage('Git checkout') {
 			steps {
@@ -78,7 +78,6 @@ pipeline {
 				}
 			}
 		}
-
 		stage('Clean docker environment') {
             steps {
                 script {
@@ -89,14 +88,13 @@ pipeline {
         }
     }
 	post {
-// 	Extra: send email in case of failure
 	    failure {
 	        mail body: "Jenkins-${JOB_NAME}-${BUILD_NUMBER} FAILED Check issue: $env.JOB_URL",
 	        bcc: '', cc: '', from: 'Jenkins@gmail.com', replyTo: 'no-reply@gmail.com',
 	        subject: "Jenkins-${JOB_NAME}-${BUILD_NUMBER} FAILED", to: 'arnon.brouner@gmail.com'
 	    }
 	}
-}
+
 def PythonFileExe(pyfilename, bckground){
 // run python file, used for the testing files and fail the build in case of error
 	try{
