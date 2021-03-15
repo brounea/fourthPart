@@ -55,13 +55,11 @@ pipeline {
         steps {
             script {
                 dockerImage = docker.build registry + "fourth-image:$BUILD_NUMBER"
-                docker.withRegistry('', registryCredential) {
+                docker.withRegistry('', registryCredential)
                 dockerImage.push()
-                    }
-                }
             }
-        } // not sure if needed
-
+        }
+    }
     stage('Run docker compose -d') {
     steps {
         script {
