@@ -1,8 +1,8 @@
 pipeline {
 	agent any
-// 	options {
-// 		buildDiscarded(logRotator(numToKeepStr: '5', daysToKeepStr: '2'))
-// 	}
+ 	options {
+ 		buildDiscarder(logRotator(numToKeepStr: '5', daysToKeepStr: '2'))
+ 	}
 	environment {
         registry = 'arnonbrouner/fourthpart'
         registryCredential = 'docker_hub'
