@@ -1,10 +1,10 @@
 pipeline {
 	agent any
 	options {
-		buildDiscarder(logRotator(numToKeepStr: '5', daysToKeepStr: '2'))
+		buildDiscarded(logRotator(numToKeepStr: '5', daysToKeepStr: '2'))
 	}
 	environment {
-        registry = "arnonbrouner/fourthpart"
+        registry = 'arnonbrouner/fourthpart'
         registryCredential = 'docker_hub'
         dockerImage = ''
      }
@@ -50,27 +50,27 @@ pipeline {
 				}
 			}
 		}
-
-	stage('build and push image') {
-        steps {
-            script {
-                dockerImage = docker.build registry + "fourth-image:$BUILD_NUMBER"
-                docker.withRegistry('', registryCredential)
-                dockerImage.push()
-            }
-        }
-    }
-    stage('Run docker compose -d') {
-    steps {
-        script {
-            if (isUnix()) {
-                sh 'docker compose up -d'
-            } else {
-                bat 'docker compose up -d'
+	    stage('build and push image') {
+            steps {
+                script {
+                    dockerImage = docker.build registry + "fourth-image:$BUILD_NUMBER"
+                    docker.withRegistry('', registryCredential)
+                    dockerImage.push()
                 }
             }
         }
-    }
+        stage('Run docker compose -d') {
+            steps {
+                script {
+                    if (isUnix()) {
+                        sh 'docker compose up -d'
+                    } else {
+                        bat 'docker compose up -d'
+                        }
+                    }
+                }
+            }
+        }
 		stage('run docker environment step') {
 			steps {
 				script {
@@ -87,7 +87,7 @@ pipeline {
                 }
             }
         }
-
+    }
 	post {
 // 	Extra: send email in case of failure
 	    failure {
@@ -96,7 +96,7 @@ pipeline {
 	        subject: "Jenkins-${JOB_NAME}-${BUILD_NUMBER} FAILED", to: 'arnon.brouner@gmail.com'
 	    }
 	}
-
+}
 def PythonFileExe(pyfilename, bckground){
 // run python file, used for the testing files and fail the build in case of error
 	try{
