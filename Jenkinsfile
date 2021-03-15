@@ -1,5 +1,4 @@
-pipeline
-{
+pipeline{
 	agent any
 	options {
 		buildDiscarded(logRotator(numToKeepStr: '5', daysToKeepStr: '2'))
