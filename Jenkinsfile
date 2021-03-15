@@ -69,10 +69,10 @@ pipeline {
                 sh 'docker compose up -d'
             } else {
                 bat 'docker compose up -d'
+                }
             }
         }
     }
-
 		stage('run docker environment step') {
 			steps {
 				script {
@@ -98,7 +98,7 @@ pipeline {
 	        subject: "Jenkins-${JOB_NAME}-${BUILD_NUMBER} FAILED", to: 'arnon.brouner@gmail.com'
 	    }
 	}
-}
+
 def PythonFileExe(pyfilename, bckground){
 // run python file, used for the testing files and fail the build in case of error
 	try{
