@@ -62,12 +62,7 @@ pipeline {
         stage('Run docker compose -d') {
             steps {
                 script {
-                    if (isUnix()) {
-                        sh 'docker compose up -d'
-                    } else {
-                        bat 'docker compose up -d'
-                        }
-                    }
+                     sh 'docker compose up -d'
                 }
             }
         }
