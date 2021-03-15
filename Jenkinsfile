@@ -57,10 +57,10 @@ pipeline {
                 dockerImage = docker.build registry + "fourth-image:$BUILD_NUMBER"
                 docker.withRegistry('', registryCredential) {
                 dockerImage.push()
+                    }
                 }
             }
-        }
-    } // not sure if needed
+        } // not sure if needed
 
     stage('Run docker compose -d') {
     steps {
@@ -119,5 +119,6 @@ def PythonFileExe(pyfilename, bckground){
 		echo "Caught in runPythonFile for ${pyfilename}, ${e.toString()}"
 		// mark the job as failed
 		currentBuild.result = "FAILURE"
-	}
+	    }
+    }
 }
