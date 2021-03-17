@@ -53,7 +53,7 @@ pipeline {
 	    stage('build and push image') {
             steps {
                 script {
-                    dockerImage = docker.build registry + "fourth-image:$BUILD_NUMBER"
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
                     docker.withRegistry('', registryCredential)
                     dockerImage.push()
                 }
@@ -77,7 +77,7 @@ pipeline {
             steps {
                 script {
                  sh "docker-compose down"
-                sh "docker image rm fourth-image:$BUILD_NUMBER"
+                sh "docker image rm $registry:$BUILD_NUMBER"
                 }
             }
         }
