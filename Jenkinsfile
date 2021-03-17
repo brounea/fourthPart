@@ -53,12 +53,13 @@ pipeline {
 	    stage('build and push image') {
             steps {
                 script {
-                    dockerImage = docker.build registry + ":$BUILD_NUMBER ."
-                    docker.withRegistry('', registryCredential)
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                    docker.withRegistry('', registryCredential) {
                     dockerImage.push()
+                    }
                 }
             }
-        }
+         }
         stage('Run docker compose -d') {
             steps {
                 script {
