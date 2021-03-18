@@ -32,21 +32,21 @@ pipeline {
 		stage('run rest_app step') {
 			steps {
 				script {
-					PythonFileExe('/app/rest_app.py',1)
+					PythonFileExe('rest_app.py',1)
 				}
 			}
 		}
 		stage('run backend testing step') {
 			steps {
 				script {
-					PythonFileExe('/app/backend_testing.py test',0)
+					PythonFileExe('backend_testing.py test',0)
 				}
 			}
 		}
 		stage('run clean environment step') {
 			steps {
 				script {
-					PythonFileExe('/app/clean_environment.py',0)
+					PythonFileExe('clean_environment.py',0)
 				}
 			}
 		}
