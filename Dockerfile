@@ -2,7 +2,7 @@ FROM python:3.7-alpine
 
 RUN mkdir /app
 WORKDIR /app
-COPY rest_app.py requirements.txt db_connector.py dbutill.py /app/
+COPY rest_app.py requirements.txt db_connector.py dbutill.py docker_backend_testing.py /app/
 RUN pip install -r requirements.txt
 RUN chmod 644 rest_app.py
 
