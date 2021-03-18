@@ -67,7 +67,7 @@ pipeline {
                 }
             }
         }
-		stage('run docker back end testing') {
+		stage('run docker_backend_testing.py step') {
 			steps {
 				script {
 					PythonFileExe('docker_backend_testing.py',0)
