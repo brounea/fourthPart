@@ -7,3 +7,5 @@ def testbe():
     else:
         print(res.status_code)
         print(res.json())
+
+testbe()
