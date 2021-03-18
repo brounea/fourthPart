@@ -4,7 +4,7 @@ pipeline {
  		buildDiscarder(logRotator(numToKeepStr: '5', daysToKeepStr: '2'))
  	}
 	environment {
-        registry = 'brounea/fourthPart'
+        registry = 'brounea/fourthpart'
         registryCredential = 'docker_hub'
         dockerImage = ''
     }
