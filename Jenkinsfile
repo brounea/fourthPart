@@ -29,24 +29,24 @@ pipeline {
 				}
 			}
 		}
-		stage('run rest_app bkend step') {
+		stage('run rest_app step') {
 			steps {
 				script {
-					PythonFileExe('rest_app.py',1)
+					PythonFileExe('/app/rest_app.py',1)
 				}
 			}
 		}
 		stage('run backend testing step') {
 			steps {
 				script {
-					PythonFileExe('backend_testing.py test',0)
+					PythonFileExe('/app/backend_testing.py test',0)
 				}
 			}
 		}
 		stage('run clean environment step') {
 			steps {
 				script {
-					PythonFileExe('clean_environment.py',0)
+					PythonFileExe('/app/clean_environment.py',0)
 				}
 			}
 		}
@@ -70,7 +70,7 @@ pipeline {
 		stage('run docker_backend_testing.py step') {
 			steps {
 				script {
-					PythonFileExe('docker_backend_testing.py',0)
+					PythonFileExe('/app/docker_backend_testing.py',0)
 				}
 			}
 		}
