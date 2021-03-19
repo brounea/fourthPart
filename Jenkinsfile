@@ -103,11 +103,11 @@ def PythonFileExe(pyfilename, bckground){
 		if (isUnix()) {
 		   if (${bckground} == '0') {
 		      //running normal process
-			    sh 'python3.9 ${pyfilename}'
+			    sh 'python ${pyfilename}'
 			}
 			else {
 			 //running in the background
-			    sh 'nohup python3.9 ${pyfilename} &'
+			    sh 'nohup python ${pyfilename} &'
 			}
 		} else {
 		//windows we dont care :)
@@ -115,7 +115,7 @@ def PythonFileExe(pyfilename, bckground){
 		}
 	} catch (Throwable e) {
 		//echo 'Caught in runPythonFile for ${pyfilename} , ${e.toString()}'
-		echo ${e.toString()}
+		echo ${pyfilename} + 'Has an issue:' + ${e.toString()}
 		// mark the job as failed
 		currentBuild.result = "FAILURE"
 	    }
