@@ -114,7 +114,8 @@ def PythonFileExe(pyfilename, bckground){
 			bat 'python ${pyfilename}'
 		}
 	} catch (Throwable e) {
-		echo 'Caught in runPythonFile for ${pyfilename}, ${e.toString()}'
+		//echo 'Caught in runPythonFile for ${pyfilename} , ${e.toString()}'
+		echo ${e.toString()
 		// mark the job as failed
 		currentBuild.result = "FAILURE"
 	    }
