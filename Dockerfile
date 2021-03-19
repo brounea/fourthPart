@@ -2,9 +2,8 @@ FROM python:3.7-alpine
 
 RUN mkdir /app
 WORKDIR /app
-COPY rest_app.py requirements.txt db_connector.py dbutill.py docker_backend_testing.py /app/
+COPY rest_app.py requirements.txt db_connector.py  /app/
 RUN pip install -r requirements.txt
 RUN chmod 644 rest_app.py
-RUN chmod 644 docker_backend_testing.py
 EXPOSE 5000
 CMD ["python3", "/app/rest_app.py"]

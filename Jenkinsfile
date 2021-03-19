@@ -60,6 +60,13 @@ pipeline {
                 }
             }
          }
+         stage('Create the image version into the env file') {
+			steps {
+				script {
+					sh "echo IMAGE_TAG=${BUILD_NUMBER} > .env"
+				}
+			}
+		}
         stage('Run docker compose') {
             steps {
                 script {
@@ -83,6 +90,13 @@ pipeline {
             }
         }
     }
+    post {
+	    always {
+	        script {
+	            sh "docker-compose down"
+                sh "docker rmi $registry:$BUILD_NUMBER"
+            }
+        }
 // 	post {
 // 	    failure {
 // 	        mail body: "Jenkins-${JOB_NAME}-${BUILD_NUMBER} FAILED Check issue: $env.JOB_URL",
