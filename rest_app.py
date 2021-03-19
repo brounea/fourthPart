@@ -1,5 +1,4 @@
 import os
-
 from flask import Flask, request
 import db_connector
 # #
@@ -37,7 +36,6 @@ def users(user_id):
             return {'status': 'ok', 'user_deleted': user_id}, 200
         else:
             return {'status': 'error', 'reason': 'no such id'}, 500
-
 
 @app.route('/stop_server')
 def stop_server():
