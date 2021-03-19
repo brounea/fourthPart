@@ -121,7 +121,7 @@ def PyExeBgrnd(pyfilename){
 			bat "python ${pyfilename}"
 		}
 	} catch (Throwable e) {
-		echo "Caught in PyExe for ${pyfilename}, ${e.toString()}"
+		echo "Caught in PyExeBgrnd for ${pyfilename}, ${e.toString()}"
 		// mark the job as failed
 		currentBuild.result = "FAILURE"
 	}
