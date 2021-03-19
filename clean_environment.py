@@ -3,7 +3,7 @@ import requests
 def rm_test_user():
     # Delete test user from the automation
     try:
-        requests.delete('http://localhost:5000/users/666')
+        requests.delete('http://localhost:5000/users/1')
         print(" post delete user action")
     except requests.exceptions.ConnectionError as e:
         print("Connection refused to rest_app service", e)

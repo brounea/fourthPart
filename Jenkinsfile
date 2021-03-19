@@ -39,7 +39,7 @@ pipeline {
 		stage('run backend testing step') {
 			steps {
 				script {
-					PyExe('backend_testing.py test')
+					PyExe('backend_testing.py')
 				}
 			}
 		}
