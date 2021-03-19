@@ -32,21 +32,21 @@ pipeline {
 		stage('run rest_app step') {
 			steps {
 				script {
-					PyExe('rest_app.py')
+					PyExeBgrnd('rest_app.py')
 				}
 			}
 		}
 		stage('run backend testing step') {
 			steps {
 				script {
-					PythonFileExe('backend_testing.py test','0')
+					PyExe('backend_testing.py test')
 				}
 			}
 		}
 		stage('run clean environment step') {
 			steps {
 				script {
-					PythonFileExe('clean_environment.py','0')
+					PyExe('clean_environment.py')
 				}
 			}
 		}
@@ -70,14 +70,14 @@ pipeline {
         stage('Run docker compose') {
             steps {
                 script {
-                     sh 'docker compose up -d'
+                     sh 'docker-compose up -d'
                 }
             }
         }
 		stage('run docker_backend_testing.py step') {
 			steps {
 				script {
-					PythonFileExe('docker_backend_testing.py','0')
+					PyExe('docker_backend_testing.py')
 				}
 			}
 		}
@@ -98,7 +98,22 @@ pipeline {
  	}
 }
 def PyExe(pyfilename){
-// run python file, used for the testing files and fail the build in case of error
+// run a python file
+	try{
+		if (isUnix()) {
+			sh "python ${pyfilename} "
+		} else {
+			bat "python ${pyfilename}"
+		}
+	} catch (Throwable e) {
+		echo "Caught in PyExe for ${pyfilename}, ${e.toString()}"
+		// mark the job as failed
+		currentBuild.result = "FAILURE"
+	}
+}
+
+def PyExeBgrnd(pyfilename){
+// run a python file
 	try{
 		if (isUnix()) {
 			sh "nohup python ${pyfilename} &"
@@ -112,27 +127,4 @@ def PyExe(pyfilename){
 	}
 }
 
-def PythonFileExe(pyfilename, bckground){
-// run python file, used for the testing files and fail the build in case of error
-	try{
-		if (isUnix()) {
-		   if (${bckground} == '0') {
-		      //running normal process
-			    sh "python3.9 ${pyfilename}"
-			}
-			else {
-			 //running in the background
-			    sh "nohup python3.9 ${pyfilename} &"
-			}
-		} else {
-		//windows we dont care :)
-			bat "python3.9 ${pyfilename}"
-		}
-	} catch (Throwable e) {
-		//echo 'Caught in runPythonFile for ${pyfilename} , ${e.toString()}'
-		echo "Caught in runPythonFile for ${pyfilename} ${e.toString()}"
-		// mark the job as failed
-		currentBuild.result = "FAILURE"
-	    }
-    }
 
