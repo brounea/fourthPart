@@ -32,7 +32,7 @@ pipeline {
 		stage('run rest_app step') {
 			steps {
 				script {
-					PythonFileExe('rest_app.py','1')
+					PyExe('rest_app.py')
 				}
 			}
 		}
@@ -97,6 +97,21 @@ pipeline {
 // 	    }
  	}
 }
+def PyExe(pyfilename){
+// run python file, used for the testing files and fail the build in case of error
+	try{
+		if (isUnix()) {
+			sh "nohup python ${pyfilename} &"
+		} else {
+			bat "python ${pyfilename}"
+		}
+	} catch (Throwable e) {
+		echo "Caught in PyExe for ${pyfilename}, ${e.toString()}"
+		// mark the job as failed
+		currentBuild.result = "FAILURE"
+	}
+}
+
 def PythonFileExe(pyfilename, bckground){
 // run python file, used for the testing files and fail the build in case of error
 	try{
