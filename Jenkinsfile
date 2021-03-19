@@ -101,7 +101,7 @@ def PyExe(pyfilename){
 // run a python file
 	try{
 		if (isUnix()) {
-			sh "python ${pyfilename} "
+			sh "python3.9 ${pyfilename} "
 		} else {
 			bat "python ${pyfilename}"
 		}
@@ -116,7 +116,7 @@ def PyExeBgrnd(pyfilename){
 // run a python file
 	try{
 		if (isUnix()) {
-			sh "nohup python ${pyfilename} &"
+			sh "nohup python3.9 ${pyfilename} &"
 		} else {
 			bat "python ${pyfilename}"
 		}
