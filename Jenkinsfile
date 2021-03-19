@@ -32,21 +32,21 @@ pipeline {
 		stage('run rest_app step') {
 			steps {
 				script {
-					PythonFileExe('rest_app.py',1)
+					PythonFileExe('rest_app.py','1')
 				}
 			}
 		}
 		stage('run backend testing step') {
 			steps {
 				script {
-					PythonFileExe('backend_testing.py test',0)
+					PythonFileExe('backend_testing.py test','0')
 				}
 			}
 		}
 		stage('run clean environment step') {
 			steps {
 				script {
-					PythonFileExe('clean_environment.py',0)
+					PythonFileExe('clean_environment.py','0')
 				}
 			}
 		}
@@ -77,7 +77,7 @@ pipeline {
 		stage('run docker_backend_testing.py step') {
 			steps {
 				script {
-					PythonFileExe('docker_backend_testing.py',0)
+					PythonFileExe('docker_backend_testing.py','0')
 				}
 			}
 		}
@@ -101,7 +101,7 @@ def PythonFileExe(pyfilename, bckground){
 // run python file, used for the testing files and fail the build in case of error
 	try{
 		if (isUnix()) {
-		   if (${bckground} == 0) {
+		   if (${bckground} == '0') {
 		      //running normal process
 			    sh 'python3.9 ${pyfilename}'
 			}
