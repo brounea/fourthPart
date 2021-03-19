@@ -77,18 +77,10 @@ pipeline {
 		stage('run docker_backend_testing.py step') {
 			steps {
 				script {
-					PythonFileExe('/app/docker_backend_testing.py',0)
+					PythonFileExe('docker_backend_testing.py',0)
 				}
 			}
 		}
-		stage('Clean docker environment') {
-            steps {
-                script {
-                 sh "docker-compose down"
-                sh "docker image rm $registry:$BUILD_NUMBER"
-                }
-            }
-        }
     }
     post {
 	    always {
