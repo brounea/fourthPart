@@ -103,7 +103,7 @@ def PyExe(pyfilename){
 		if (isUnix()) {
 			sh "python3.9 ${pyfilename} "
 		} else {
-			bat "python ${pyfilename}"
+			sh "python3.9 ${pyfilename} "
 		}
 	} catch (Throwable e) {
 		echo "Caught in PyExe for ${pyfilename}, ${e.toString()}"
@@ -118,7 +118,7 @@ def PyExeBgrnd(pyfilename){
 		if (isUnix()) {
 			sh "nohup python3.9 ${pyfilename} &"
 		} else {
-			bat "python ${pyfilename}"
+			sh "nohup python3.9 ${pyfilename} &"
 		}
 	} catch (Throwable e) {
 		echo "Caught in PyExeBgrnd for ${pyfilename}, ${e.toString()}"
