@@ -18,36 +18,19 @@ pipeline {
 				checkout scm
 			}
 		}
-		stage('Pip install missing dependencies') {
-			steps {
-				script {
-					if (isUnix()) {
-						sh 'pip3 install flask requests selenium pymysql -t ./'
-					} else {
-						bat 'pip3 install flask requests selenium pymysql -t ./'
-					}
-				}
-			}
-		}
 		stage('run rest_app step') {
 			steps {
-				script {
-					PyExeBgrnd('rest_app.py')
-				}
+				sh 'nohup python3 rest_app.py &'
 			}
 		}
 		stage('run backend testing step') {
 			steps {
-				script {
-					PyExe('backend_testing.py')
-				}
+				sh 'python3 backend_testing.py'
 			}
 		}
 		stage('run clean environment step') {
 			steps {
-				script {
-					PyExe('clean_environment.py')
-				}
+				sh 'python3 clean_environment.py'
 			}
 		}
 	    stage('build and push image') {
@@ -60,7 +43,7 @@ pipeline {
                 }
             }
          }
-         stage('Create the image version into the env file') {
+         stage('Create image version into the env file') {
 			steps {
 				script {
 					sh "echo IMAGE_TAG=${BUILD_NUMBER} > .env"
@@ -76,9 +59,8 @@ pipeline {
         }
 		stage('run docker_backend_testing.py step') {
 			steps {
-				script {
-					PyExe('docker_backend_testing.py')
-				}
+				sh 'python3 docker_backend_testing.py'
+
 			}
 		}
     }
@@ -86,45 +68,8 @@ pipeline {
 	    always {
 	        script {
 	            sh "docker-compose down"
-                sh "docker rmi $registry:$BUILD_NUMBER"
+               sh "docker rmi $registry:$BUILD_NUMBER"
             }
         }
-// 	post {
-// 	    failure {
-// 	        mail body: "Jenkins-${JOB_NAME}-${BUILD_NUMBER} FAILED Check issue: $env.JOB_URL",
-// 	        bcc: '', cc: '', from: 'Jenkins@gmail.com', replyTo: 'no-reply@gmail.com',
-// 	        subject: "Jenkins-${JOB_NAME}-${BUILD_NUMBER} FAILED", to: 'arnon.brouner@gmail.com'
-// 	    }
  	}
 }
-def PyExe(pyfilename){
-// run a python file
-	try{
-		if (isUnix()) {
-			sh "/Users/arnonbrouner/PycharmProjects/fourthPart/venv/bin/python ${pyfilename} "
-		} else {
-			sh "/Users/arnonbrouner/PycharmProjects/fourthPart/venv/bin/python ${pyfilename} "
-		}
-	} catch (Throwable e) {
-		echo "Caught in PyExe for ${pyfilename}, ${e.toString()}"
-		// mark the job as failed
-		currentBuild.result = "FAILURE"
-	}
-}
-
-def PyExeBgrnd(pyfilename){
-// run a python file
-	try{
-		if (isUnix()) {
-			sh "nohup /Users/arnonbrouner/PycharmProjects/fourthPart/venv/bin/python ${pyfilename} &"
-		} else {
-			sh "nohup /Users/arnonbrouner/PycharmProjects/fourthPart/venv/bin/python ${pyfilename} &"
-		}
-	} catch (Throwable e) {
-		echo "Caught in PyExeBgrnd for ${pyfilename}, ${e.toString()}"
-		// mark the job as failed
-		currentBuild.result = "FAILURE"
-	}
-}
-
-
