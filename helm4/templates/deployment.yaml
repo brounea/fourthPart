@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fourthpart
+spec:
+  selector:
+    matchLabels:
+      app: fourthpart
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: fourthpart
+    spec:
+      containers:
+      - name: fourthpart
+        image: "{{ .Values.image.version }}"
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5004
