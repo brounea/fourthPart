@@ -70,13 +70,20 @@ pipeline {
 
 			}
 		}
-    stage('step dkr dwn & rmi ') {
+        stage('step dkr dwn & rmi ') {
 			steps {
 			    script {
 				    sh "docker-compose down"
                     sh "docker rmi $registry:$BUILD_NUMBER"
                 }
 			}
-	}
-}
+	    }
+	    stage('Deploying HELM chart') {
+			steps {
+				script {
+					sh "helm install release helm4/ --set image.version=$registry:${BUILD_NUMBER}"
+				}
+			}
+		}
+    }
 }
