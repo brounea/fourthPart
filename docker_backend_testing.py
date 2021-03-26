@@ -1,11 +1,13 @@
 import requests
 
-def testbe():
-    res = requests.get('http://localhost:5004/users/1')
-    if res.ok:
+def testdkrbe():
+    try:
+        res = requests.get('http://localhost:5004/users/1')
         print(res.json())
-    else:
-        print(res.status_code)
-        print(res.json())
+    except requests.exceptions.ConnectionError as err:
+        print('rest_app connection is refused from docker', err)
+    finally:
+        assert res.ok
 
-testbe()
+if __name__ == "__main__":
+    testdkrbe()
