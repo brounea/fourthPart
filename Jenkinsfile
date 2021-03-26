@@ -70,7 +70,6 @@ pipeline {
 
 			}
 		}
-    }
     stage('step dkr dwn & rmi ') {
 			steps {
 			    script {
@@ -79,6 +78,6 @@ pipeline {
                 }
 			}
 		}
-    }
+}
 
 //}
