@@ -71,12 +71,14 @@ pipeline {
 			}
 		}
     }
-    post {
-	    always {
-	        script {
-	            sh "docker-compose down"
-               sh "docker rmi $registry:$BUILD_NUMBER"
-            }
-        }
- 	}
-}
+    stage('step dkr dwn & rmi ') {
+			steps {
+			    script {
+				    sh "docker-compose down"
+                    sh "docker rmi $registry:$BUILD_NUMBER"
+                }
+			}
+		}
+    }
+
+//}
