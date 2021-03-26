@@ -81,7 +81,7 @@ pipeline {
 	    stage('Deploying HELM chart') {
 			steps {
 				script {
-					sh "helm install release helmfourthpart/ --set image.version=$registry:${BUILD_NUMBER}"
+					sh "helm install release fourthpart/ --set image.version=$registry:${BUILD_NUMBER}"
 				}
 			}
 		}
@@ -99,5 +99,20 @@ pipeline {
 				}
 			}
 		}
+		stage('Wait for minikube service cmd for 20 sec...') {
+            steps {
+                script {
+                    sleep 20
+                }
+            }
+        }
+        stage('Test k8s services') {
+			steps {
+				script {
+					runPythonFile('K8S_backend_testing.py')
+				}
+			}
+		}
+
     }
 }
