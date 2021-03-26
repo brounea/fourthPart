@@ -81,7 +81,21 @@ pipeline {
 	    stage('Deploying HELM chart') {
 			steps {
 				script {
-					sh "helm install release helm4/ --set image.version=$registry:${BUILD_NUMBER}"
+					sh "helm install release helmfourthpart/ --set image.version=$registry:${BUILD_NUMBER}"
+				}
+			}
+		}
+		stage('Wait for helm 20 sec...') {
+            steps {
+                script {
+                    sleep 20
+                }
+            }
+        }
+        stage('Minikube Save service URLto file') {
+			steps {
+				script {
+					sh 'minikube service fourthpartlbservice --url > k8s_url.txt &'
 				}
 			}
 		}
