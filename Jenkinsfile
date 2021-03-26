@@ -57,6 +57,13 @@ pipeline {
                 }
             }
         }
+        stage('Sleeping 15s ...') {
+            steps {
+                script {
+                    sleep 15
+                }
+            }
+        }
 		stage('run docker_backend_testing.py step') {
 			steps {
 				sh 'python3 docker_backend_testing.py'
